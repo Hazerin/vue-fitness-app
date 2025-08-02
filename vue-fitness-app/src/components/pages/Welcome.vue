@@ -15,9 +15,9 @@
         <div>
             <h3>The Training Plan</h3>
             <p>This training plan follows a structure known as the
-                <strong>Bro Split</strong>
-                <h5><i>Push &rarr; Pull &rarr; Legs &rarr; Repeat</i></h5>
+                <strong>Bro Split.</strong>
             </p>
+            <h5><i>Push &rarr; Pull &rarr; Legs &rarr; Repeat</i></h5>
         </div>
         <div class="card challenge">
             <h3>🔥 Your challenge</h3>
@@ -42,6 +42,10 @@
 
     .benefits {
         gap: 0.5rem;
+    }
+
+    .challenge {
+        gap: 0.25rem;
     }
 
 
