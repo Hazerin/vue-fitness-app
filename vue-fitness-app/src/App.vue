@@ -4,13 +4,15 @@
     import Dashboard from './components/pages/Dashboard.vue';
     import Workout from './components/pages/Workout.vue';
 
+    const selectedDisplay = 2
+
 </script>
 
 <template>
     <Layout>
-        <Welcome/>
-        <Workout/>
-        <Dashboard/>
+        <Welcome v-if="selectedDisplay == 1"/>
+        <Dashboard v-if="selectedDisplay == 2"/>
+        <Workout v-if="selectedDisplay == 3"/>
     </Layout>
 </template>
 

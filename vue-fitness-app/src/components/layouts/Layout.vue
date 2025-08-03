@@ -13,6 +13,7 @@
         <a href="https://github.com/Hazerin" target="_blank">
             <img src="https://avatars.githubusercontent.com/u/121830016?v=4" alt="pfp">
             <p>Hazerin</p>
+            <i class="fa-brands fa-github"></i>
         </a>
     </footer>
 </template>
