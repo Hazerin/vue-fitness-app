@@ -1,10 +1,29 @@
 <script setup>
-    import { workoutProgram } from '../../utils';
+    import { ref } from 'vue';
+    import { workoutProgram, exerciseDescriptions } from '../../utils';
+    import Portal from '../Portal.vue';
     const selectedWorkout = 4
     const {workout, warmup} = workoutProgram[selectedWorkout]
+    const selectedExercise = ref(null)
+    const exerciseDescription = exerciseDescriptions[selectedExercise]
+
+    function handleCloseModal() {
+        selectedExercise.value = null
+    }
+
 </script>
 
 <template>
+    <Portal v-if="selectedExercise">
+        <div class="exercise-description">
+            <h4>{{ selectedExercise }}</h4>
+            <div>
+                <small>Description</small>
+                <p>{{ exerciseDescription }}</p>
+            </div>
+            <button @click="handleCloseModal()">Close <i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </Portal>
     <section id="workout-card">
         <div class="plan-card card">
             <div class="plan-card-header">
@@ -21,7 +40,9 @@
             <div class="workout-grid-row" v-for="(w, wIdx) in warmup" :key="wIdx">
                 <div class="grid-name">
                     <p>{{ w.name }}</p>
-                    <button>
+                    <button @click="() => {
+                        selectedExercise = w.name
+                    }">
                         <i class="fa-regular fa-circle-question"></i>
                     </button>
                 </div>
@@ -37,7 +58,9 @@
             <div class="workout-grid-row" v-for="(w, wIdx) in workout" :key="wIdx">
                 <div class="grid-name">
                     <p>{{ w.name }}</p>
-                    <button>
+                    <button @click="() => {
+                        selectedExercise = w.name
+                    }">
                         <i class="fa-regular fa-circle-question"></i>
                     </button>
                 </div>
@@ -46,7 +69,7 @@
                 <input class="grid-weights" placeholder="14kg" type="text">
             </div>
         </div>
-        <div class="card">
+        <div class="card workout-btns">
             <button>
                 Save & Exit <i class="fa-solid fa-save"></i>
             </button>
@@ -68,7 +91,8 @@
         gap: 1.5rem;
     }
 
-    .plan-card-header {
+    .plan-card-header,
+    .workout-btns {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -88,6 +112,9 @@
     }
 
     .grid-name {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
         grid-column: span 3 / span 3
     }
 
@@ -104,7 +131,40 @@
     }
 
     .workout-grid-row .grid-name button {
-        /* Non si mette display none perché non è possibile fare la transizione altrimenti */
+        /* Display none e pointer events none perché cosi è possibile fare la transizione poi */
         opacity: 0;
+        pointer-events: none;
     }
+
+    .workout-grid-row:hover .grid-name button {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .grid-name p {
+        text-transform: capitalize;
+    }
+
+    .grid-weights {
+        grid-column: span 2 / span 2;
+    }
+
+    .workout-btns button {
+        flex: 1;
+    }
+
+    .workout-btns button i {
+        padding-left: 0.5rem;
+    }
+
+    .exercise-description {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .exercise-description button i {
+        padding-left: 0.5rem;
+    }
+
 </style>
