@@ -15,18 +15,18 @@
 <template>
     <section id="grid">
         <!--Coppia chiave-valore (0 : "0", 1 : "1" etc) in modo da dare a ogni pulsante una chiave unica per l'identificazione-->
-        <button :disabled="workoutIdx > 0 && firstIncompleteWorkoutIndex" @click="() => handleSelectWorkout(workoutIdx)" :key="workoutIdx" v-for="(workout, workoutIdx) in Object.keys(workoutProgram)" class="card-button plan-card" >
+        <button :disabled="workoutIdx > 0 && workoutIdx > firstIncompleteWorkoutIndex" @click="() => handleSelectWorkout(workoutIdx)" :key="workoutIdx" v-for="(workout, workoutIdx) in Object.keys(workoutProgram)"  class="card-button plan-card">
             <div>
-                <p>Day {{ workoutIdx < 9 ? "0" + (workoutIdx + 1) : workoutIdx + 1}}</p>
-                <i class="fa-solid fa-dumbbell" v-if="workoutIdx % 3 == 0"></i>
-                <i class="fa-solid fa-weight-hanging" v-if="workoutIdx % 3 == 1"></i>
+                <p>Day {{ workoutIdx < 9 ? '0' + (workoutIdx + 1) : workoutIdx + 1 }}</p>
+                <i class="fa-solid fa-dumbbell" v-if="workoutIdx % 3 == 0" ></i>
+                <i class='fa-solid fa-weight-hanging' v-if="workoutIdx % 3 == 1"></i>
                 <i class="fa-solid fa-bolt" v-if="workoutIdx % 3 == 2"></i>
             </div>
             <h3>{{ workoutTypes[workoutIdx % 3] }}</h3>
         </button>
-        <button class="card-button plan-card-reset">
-            <p>Reset</p>
-            <i class="fa-solid fa-rotate-left"></i>
+        <button :disabled="firstIncompleteWorkoutIndex != -1" @click="handleResetPlan" class="card-button plan-card-reset">
+           <p>Reset</p>
+           <i class="fa-solid fa-rotate-left"></i>
         </button>
     </section>
 </template>
