@@ -1,12 +1,9 @@
 <script setup>
-    import { computed, ref } from 'vue';
-    import { workoutProgram, exerciseDescriptions } from '../../utils';
+    import { ref, computed } from 'vue';
     import Portal from '../Portal.vue';
-    const {workout, warmup} = workoutProgram[selectedWorkout]
-    const selectedExercise = ref(null)
-    // Per aggiornare variabili quando una ref cambia
-    const exerciseDescription = computed(() => exerciseDescriptions[selectedExercise.value])
-    
+    import { workoutProgram, exerciseDescriptions } from '../../utils';
+    const workoutType = ["Push", "Pull", "Legs"]
+
     const {data, selectedWorkout} = defineProps({
         data: Object,
         selectedWorkout: Number,
@@ -14,10 +11,14 @@
         isWorkoutComplete: Boolean
     })
 
+    const {workout, warmup} = workoutProgram[selectedWorkout]
+    let selectedExercise = ref(null)
+    // Per aggiornare variabili quando una ref cambia
+    const exerciseDescription = computed(() => exerciseDescriptions[selectedExercise.value])
+
     function handleCloseModal() {
         selectedExercise.value = null
     }
-
 </script>
 
 <template>
@@ -38,7 +39,7 @@
                 <p>Day {{ selectedWorkout < 9 ? '0' + (selectedWorkout + 1) : selectedWorkout + 1 }}</p>
                 <i class="fa-solid fa-dumbbell"></i>
             </div>
-            <h2>{{ "Push" }} Workout</h2>
+            <h2>{{ workoutType[selectedWorkout % 3] }} Workout</h2>
         </div>
         <div class="workout-grid">
             <h4 class="grid-name">Warmup</h4>
@@ -56,8 +57,7 @@
                 </div>
                 <p>{{ w.sets }}</p>
                 <p>{{ w.reps }}</p>
-                <!-- v-model: dove vengono salvati i dati dell'input-->
-                <input v-model="data[selectedWorkout][w.name]" class="grid-weights" placeholder="14kg" type="text" disabled>
+                <input class="grid-weights" placeholder="14kg" type="text" disabled>
             </div>
             <div class="workout-grid-line"></div>
             <h4 class="grid-name">Workout</h4>
@@ -75,7 +75,8 @@
                 </div>
                 <p>{{ w.sets }}</p>
                 <p>{{ w.reps }}</p>
-                <input class="grid-weights" placeholder="14kg" type="text">
+                <!-- v-model: dove vengono salvati i dati dell'input-->
+                <input v-model="data[selectedWorkout][w.name]" class="grid-weights" placeholder="14kg" type="text">
             </div>
         </div>
         <div class="card workout-btns">

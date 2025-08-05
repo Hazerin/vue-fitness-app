@@ -7,17 +7,15 @@
     import { ref, computed, onMounted } from 'vue'
     import { workoutProgram } from './utils'
 
-    const defaultData = {};
-    for (let workoutIdx in workoutProgram) {
-
+    const defaultData = {}
+        for (let workoutIdx in workoutProgram) {
         const workoutData = workoutProgram[workoutIdx]
 
-        defaultData[workoutIdx] = {}
+        defaultData[workoutIdx] = {} 
 
         for (let e of workoutData.workout) {
             defaultData[workoutIdx][e.name] = ''
         }
-
     }
 
     const selectedDisplay = ref(1)
@@ -43,7 +41,7 @@
         for (const [index, workout] of Object.entries(allWorkouts)) {
         const isComplete = Object.values(workout).every(ex => !!ex)
             if (!isComplete) {
-            return parseInt(index)
+                return parseInt(index)
             }
         }
         // Tutti gli esercizi sono stati completati
@@ -73,8 +71,11 @@
 <template>
     <Layout>
         <!-- Nell'HTML di Vue viene sottointeso il value direttamente. Quindi selectedDisplay equivale a selectedDisplay.value -->
-        <Welcome :handleChangeDisplay="handleChangeDisplay" v-if="selectedDisplay == 1"/>
+<!-- PAGE 1 -->
+        <Welcome :handleChangeDisplay="handleChangeDisplay" v-if="selectedDisplay == 1" />
+        <!-- PAGE 2 -->
         <Dashboard :firstIncompleteWorkoutIndex="firstIncompleteWorkoutIndex" :handleSelectWorkout="handleSelectWorkout" v-if="selectedDisplay == 2"/>
+        <!-- PAGE 3 -->
         <Workout :handleSaveWorkout="handleSaveWorkout" :isWorkoutComplete="isWorkoutComplete" :data="data" :selectedWorkout="selectedWorkout" v-if="workoutProgram?.[selectedWorkout]"/>
     </Layout>
 </template>
