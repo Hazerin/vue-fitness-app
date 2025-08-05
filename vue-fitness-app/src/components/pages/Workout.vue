@@ -9,7 +9,9 @@
     
     const {data, selectedWorkout} = defineProps({
         data: Object,
-        selectedWorkout: Number
+        selectedWorkout: Number,
+        handleSaveWorkout: Function,
+        isWorkoutComplete: Boolean
     })
 
     function handleCloseModal() {
@@ -33,7 +35,7 @@
     <section id="workout-card">
         <div class="plan-card card">
             <div class="plan-card-header">
-                <p>Day {{ selectedWorkout < 9 ? '0' + selectedWorkout : selectedWorkout }}</p>
+                <p>Day {{ selectedWorkout < 9 ? '0' + (selectedWorkout + 1) : selectedWorkout + 1 }}</p>
                 <i class="fa-solid fa-dumbbell"></i>
             </div>
             <h2>{{ "Push" }} Workout</h2>
@@ -54,7 +56,8 @@
                 </div>
                 <p>{{ w.sets }}</p>
                 <p>{{ w.reps }}</p>
-                <input class="grid-weights" placeholder="14kg" type="text" disabled>
+                <!-- v-model: dove vengono salvati i dati dell'input-->
+                <input v-model="data[selectedWorkout][w.name]" class="grid-weights" placeholder="14kg" type="text" disabled>
             </div>
             <div class="workout-grid-line"></div>
             <h4 class="grid-name">Workout</h4>
@@ -76,10 +79,11 @@
             </div>
         </div>
         <div class="card workout-btns">
-            <button>
+            <button @click="handleSaveWorkout">
                 Save & Exit <i class="fa-solid fa-save"></i>
             </button>
-            <button>
+            <!--Se il workout non è completo, il bottone è disabilitato-->
+            <button :disabled="!isWorkoutComplete" @click="handleSaveWorkout">
                 Complete <i class="fa-solid fa-check"></i>
             </button>
         </div>
