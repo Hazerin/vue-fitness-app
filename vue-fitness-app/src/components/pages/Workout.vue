@@ -1,11 +1,12 @@
 <script setup>
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import { workoutProgram, exerciseDescriptions } from '../../utils';
     import Portal from '../Portal.vue';
     const selectedWorkout = 4
     const {workout, warmup} = workoutProgram[selectedWorkout]
     const selectedExercise = ref(null)
-    const exerciseDescription = exerciseDescriptions[selectedExercise]
+    // Per aggiornare variabili quando una ref cambia
+    const exerciseDescription = computed(() => exerciseDescriptions[selectedExercise.value])
 
     function handleCloseModal() {
         selectedExercise.value = null
@@ -161,6 +162,11 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        width: 100%;
+    }
+
+    .exercise-description h3 {
+        text-transform: capitalize;
     }
 
     .exercise-description button i {
