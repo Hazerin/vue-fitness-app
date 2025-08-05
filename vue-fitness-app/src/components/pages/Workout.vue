@@ -2,11 +2,15 @@
     import { computed, ref } from 'vue';
     import { workoutProgram, exerciseDescriptions } from '../../utils';
     import Portal from '../Portal.vue';
-    const selectedWorkout = 4
     const {workout, warmup} = workoutProgram[selectedWorkout]
     const selectedExercise = ref(null)
     // Per aggiornare variabili quando una ref cambia
     const exerciseDescription = computed(() => exerciseDescriptions[selectedExercise.value])
+    
+    const {data, selectedWorkout} = defineProps({
+        data: Object,
+        selectedWorkout: Number
+    })
 
     function handleCloseModal() {
         selectedExercise.value = null
@@ -15,7 +19,8 @@
 </script>
 
 <template>
-    <Portal v-if="selectedExercise">
+    <!-- i props vanno passati senza le parentesi () perché non sono funzioni da invocare, ma solo da passare. -->
+    <Portal v-if="selectedExercise" :handleCloseModal="handleCloseModal">
         <div class="exercise-description">
             <h4>{{ selectedExercise }}</h4>
             <div>

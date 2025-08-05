@@ -1,5 +1,8 @@
 <script setup>
     import { Teleport } from 'vue';
+    const {handleCloseModal} = defineProps({
+        handleCloseModal: Function
+    })
     
 </script>
 
@@ -7,7 +10,7 @@
     <Teleport to="#portal">
         <div class="portal-container">
             <!--Permette al div di assolvere al ruolo di bottone-->
-            <div role="button" tabindex="0" @click="() => {}" class="portal-underlay"></div>
+            <div role="button" tabindex="0" @click="() => handleCloseModal()" class="portal-underlay"></div>
             <div class="portal-content">
                 <slot/>
             </div>
