@@ -66,16 +66,34 @@
         selectedWorkout.value = -1
     }
 
+    function handleResetPlan() {
+        selectedDisplay.value = 1
+        selectedWorkout.value = -1
+        data.value = defaultData
+        localStorage.removeItem('workouts')
+        location.reload()
+    }
+
+    // Quando l'applicazione viene caricata
+    onMounted(() => {
+        // Non fare niente se localStorage è vuota
+        if (!localStorage) {return}
+        // Se ci sono degli allenamenti, recupero i dati
+        if (localStorage.getItem('workouts')) {
+            const savedData = JSON.parse(localStorage.getItem('workouts'))
+            data.value = savedData
+            // Se ci sono dati, non è necessario caricare la pagina di benvenuto e passo direttamente a quella degli allenamenti
+            selectedDisplay.value = 2
+        }
+    })
+
 </script>
 
 <template>
     <Layout>
         <!-- Nell'HTML di Vue viene sottointeso il value direttamente. Quindi selectedDisplay equivale a selectedDisplay.value -->
-<!-- PAGE 1 -->
         <Welcome :handleChangeDisplay="handleChangeDisplay" v-if="selectedDisplay == 1" />
-        <!-- PAGE 2 -->
-        <Dashboard :firstIncompleteWorkoutIndex="firstIncompleteWorkoutIndex" :handleSelectWorkout="handleSelectWorkout" v-if="selectedDisplay == 2"/>
-        <!-- PAGE 3 -->
+        <Dashboard :handleResetPlan="handleResetPlan" :firstIncompleteWorkoutIndex="firstIncompleteWorkoutIndex" :handleSelectWorkout="handleSelectWorkout" v-if="selectedDisplay == 2"/>
         <Workout :handleSaveWorkout="handleSaveWorkout" :isWorkoutComplete="isWorkoutComplete" :data="data" :selectedWorkout="selectedWorkout" v-if="workoutProgram?.[selectedWorkout]"/>
     </Layout>
 </template>

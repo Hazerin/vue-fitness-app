@@ -3,12 +3,15 @@
     import { workoutProgram } from '../utils';
 
     // Se usati nell'HTML di Vue non è necessario destrutturare, è in grado di capirlo da sè
-    defineProps({
+    const props = defineProps({
         handleSelectWorkout: Function,
-        firstIncompleteWorkoutIndex: Number
+        firstIncompleteWorkoutIndex: Number,
+        handleResetPlan: Function
     })
 
     const workoutTypes = ['Push','Pull','Legs'];
+
+    console.log(props.firstIncompleteWorkoutIndex)
 
 </script>
 
@@ -24,7 +27,7 @@
             </div>
             <h3>{{ workoutTypes[workoutIdx % 3] }}</h3>
         </button>
-        <button :disabled="firstIncompleteWorkoutIndex != -1" @click="handleResetPlan" class="card-button plan-card-reset">
+        <button :disabled="firstIncompleteWorkoutIndex == 0" @click="handleResetPlan" class="card-button plan-card-reset">
            <p>Reset</p>
            <i class="fa-solid fa-rotate-left"></i>
         </button>

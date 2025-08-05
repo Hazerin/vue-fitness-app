@@ -4,7 +4,8 @@
 
   const props = defineProps({
     handleSelectWorkout: Function,
-    firstIncompleteWorkoutIndex: Number
+    firstIncompleteWorkoutIndex: Number,
+    handleResetPlan: Function
   })
 
   const randomNumber = Math.floor(Math.random() * gymHealthFacts.length)
